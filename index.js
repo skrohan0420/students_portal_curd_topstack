@@ -5,14 +5,18 @@ const mongoDB = require('./database/db');
 
 mongoDB();
 
+app.use(express.json())
+app.use(express.urlencoded({ extended: true })) 
+
+
 app.get('/', (req, res) => {
-    res.send('Server is running on http://localhost:8080');
+    res.send('Server is running on http://localhost:4000');
 });
 
 
 app.use('/students', studentsRoutes);
 
 
-app.listen(8080, () => {
-    console.log('Server is running on http://localhost:8080');
+app.listen(4000, () => {
+    console.log('Server is running on http://localhost:4000');
 });
