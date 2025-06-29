@@ -21,6 +21,28 @@ const addStudent = async (req, res) => {
 };
 
 
+const updateStudent = async (req, res) => {
+    const { id } = req.params;
+    const { name, className, roll } = req.body;
+
+    if (!name || !className || !roll) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+
+    try {
+        const updatedStudent = await studentModel.findByIdAndUpdate(id, { name, className, roll }, { new: true });
+        
+        if (!updatedStudent) {
+            return res.status(404).json({status: false, message: 'Student not found' });
+        }
+        res.status(200).json({status: true, message: 'Student updated successfully', student: updatedStudent });
+    } catch (error) {
+        console.error('Error updating student:', error);
+        res.status(500).json({status: false, message: 'Internal server error' });
+    }
+};
+
+
 
 const studentList = async (req, res) => {
     try {
@@ -68,5 +90,6 @@ module.exports = {
     addStudent,
     studentList,
     getStudent,
-    deleteStudent
+    deleteStudent,
+    updateStudent
 }
